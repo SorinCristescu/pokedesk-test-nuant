@@ -21,20 +21,21 @@ const Filter: React.FC<FilterProps> = ({ types }) => {
   const router = useRouter();
 
   const handleChange = (value: string) => {
-    if (value === 'all') {
-      const sp = new URLSearchParams(searchParams);
-      sp.delete('type');
-      router.push(`/?${sp.toString()}`);
-      return;
-    }
-
     const sp = new URLSearchParams(searchParams);
-    sp.set('type', value);
+    if (value === 'all') {
+      sp.delete('type');
+    } else {
+      sp.set('type', value);
+    }
     router.push(`/?${sp.toString()}`);
   };
 
   return (
-    <Select data-testid="filter" onValueChange={handleChange}>
+    <Select
+      data-testid="filter"
+      onValueChange={handleChange}
+      defaultValue={searchParams.get('type') || 'all'}
+    >
       <SelectTrigger className="w-[180px]">
         <SelectValue placeholder="Filter by type" />
       </SelectTrigger>
@@ -42,6 +43,7 @@ const Filter: React.FC<FilterProps> = ({ types }) => {
         <SelectItem data-testid="select-item" value="all">
           All
         </SelectItem>
+
         {types &&
           types.map((type) => (
             <SelectItem

@@ -23,18 +23,14 @@ const SearchBar: React.FC = () => {
       return;
     }
 
-    if (!debouncedValue) {
-      router.push('/');
+    const sp = new URLSearchParams(searchParams);
+    if (debouncedValue.trim() === '') {
+      sp.delete('search');
     } else {
-      const sp = new URLSearchParams(searchParams);
-      if (debouncedValue.trim() === '') {
-        sp.delete('search');
-      } else {
-        sp.set('search', debouncedValue);
-      }
-
-      router.push(`${pathname}?${sp.toString()}`);
+      sp.set('search', debouncedValue);
     }
+
+    router.push(`${pathname}?${sp.toString()}`);
   }, [pathname, debouncedValue, router, searchParams]);
 
   return (

@@ -18,11 +18,11 @@ export default async function Home({
       data-testid="home-page"
       className="container relative flex min-h-screen flex-col items-center py-24"
     >
-      <section className="container fixed top-24 z-10 flex w-full flex-col items-start justify-center gap-4 bg-background py-4 md:flex-row">
+      <section className="container fixed top-20 z-10 flex w-full flex-col items-start justify-center gap-4 bg-background py-4 md:flex-row">
         <SearchBar />
         <Filter types={types.results} />
       </section>
-      <section className="mt-20 py-4">
+      <section key={Math.random()} className="mt-20 py-4">
         <PokemonsList initialPokemons={pokemons} />
       </section>
     </main>
