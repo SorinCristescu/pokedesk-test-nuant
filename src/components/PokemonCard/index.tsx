@@ -14,7 +14,7 @@ const PokemonCard = ({ pokemon }: { pokemon: Pokemon }): React.JSX.Element => {
     <div
       data-testid="card"
       // eslint-disable-next-line tailwindcss/migration-from-tailwind-2
-      className="m-5 flex h-fit w-56 flex-col items-center justify-start rounded-2xl bg-neutral-200 bg-opacity-50 p-4 shadow-md shadow-neutral-300 backdrop-blur-sm dark:bg-neutral-700 dark:bg-opacity-50 dark:shadow-neutral-700"
+      className="m-5 flex h-fit w-56 flex-col items-center justify-start rounded-2xl bg-slate-200 bg-opacity-40 p-4 shadow-md shadow-slate-300 backdrop-blur-sm dark:bg-slate-900 dark:bg-opacity-50 dark:shadow-slate-800"
       onClick={handleClick}
     >
       <h1
