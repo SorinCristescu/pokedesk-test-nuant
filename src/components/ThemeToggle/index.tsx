@@ -29,6 +29,7 @@ export default function ThemeToggle() {
 
   return (
     <Button
+      data-testid="toggle"
       variant="ghost"
       onClick={handleTheme}
       className="size-12 rounded-full"

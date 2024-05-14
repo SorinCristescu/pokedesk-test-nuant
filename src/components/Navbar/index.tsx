@@ -4,7 +4,7 @@ import ThemeToggle from '../ThemeToggle';
 
 export const Navbar = () => {
   return (
-    <header className="fixed z-10 w-full bg-background">
+    <header data-testid="navbar" className="fixed z-10 w-full bg-background">
       <nav
         className="container mx-auto flex items-center justify-between p-4 lg:px-8"
         aria-label="Global"
@@ -16,7 +16,7 @@ export const Navbar = () => {
               width={100}
               height={250}
               src="/assets/images/pokedesk-logo.png"
-              alt="Logo image"
+              alt="Pokedesk logo"
             />
           </Link>
         </div>
