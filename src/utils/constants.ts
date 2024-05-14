@@ -3,4 +3,4 @@ export const BASE_IMAGE_URL =
 export const POKEMONS_QUERY_LIMIT = 50;
 export const POKEMONS_QUERY_OFFSET = 10;
 export const POKEMONS_PER_PAGE = 50;
-export const DEBOUNCE_TIME = 500;
+export const DEBOUNCE_TIME = 200;
