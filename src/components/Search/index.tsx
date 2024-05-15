@@ -40,7 +40,7 @@ const SearchBar: React.FC = () => {
         type="text"
         className="pl-12"
         placeholder="Search Pokemon..."
-        value={debouncedValue}
+        value={search}
         onChange={(e) => setValue(e.target.value)}
       />
       <div className="absolute left-4 top-0 flex h-full items-center justify-center">

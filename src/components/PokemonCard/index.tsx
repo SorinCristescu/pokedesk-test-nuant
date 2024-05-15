@@ -28,6 +28,7 @@ const PokemonCard = ({ pokemon }: { pokemon: Pokemon }): React.JSX.Element => {
           data-testid="card-image"
           src={pokemon.imageSrc}
           alt={pokemon.name}
+          sizes="180px"
           fill
           style={{
             objectFit: 'cover',

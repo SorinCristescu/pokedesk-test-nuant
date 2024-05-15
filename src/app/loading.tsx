@@ -1,5 +1,5 @@
 import { Skeleton } from '@/components/ui/skeleton';
-import { POKEMONS_PER_PAGE } from '@/utils/constants';
+import { POKEMONS_QUERY_OFFSET } from '@/utils/constants';
 
 export default function Loading() {
   return (
@@ -9,7 +9,7 @@ export default function Loading() {
         <Skeleton className="h-10 w-[180px] bg-slate-300 dark:bg-slate-800 " />
       </section>
       <div className="container mt-24 flex w-full flex-wrap items-center justify-center gap-2 py-4">
-        {[...Array(POKEMONS_PER_PAGE)].map((_, i) => (
+        {[...Array(POKEMONS_QUERY_OFFSET)].map((_, i) => (
           <div
             // eslint-disable-next-line react/no-array-index-key
             key={i}

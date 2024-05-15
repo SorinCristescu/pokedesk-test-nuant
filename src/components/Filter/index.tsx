@@ -19,6 +19,7 @@ interface FilterProps {
 const Filter: React.FC<FilterProps> = ({ types }) => {
   const searchParams = useSearchParams();
   const router = useRouter();
+  const type = searchParams.get('type') || 'all';
 
   const handleChange = (value: string) => {
     const sp = new URLSearchParams(searchParams);
@@ -34,7 +35,7 @@ const Filter: React.FC<FilterProps> = ({ types }) => {
     <Select
       data-testid="filter"
       onValueChange={handleChange}
-      defaultValue={searchParams.get('type') || 'all'}
+      defaultValue={type}
     >
       <SelectTrigger className="w-[180px]">
         <SelectValue placeholder="Filter by type" />
@@ -45,13 +46,9 @@ const Filter: React.FC<FilterProps> = ({ types }) => {
         </SelectItem>
 
         {types &&
-          types.map((type) => (
-            <SelectItem
-              data-testid="select-item"
-              key={type.url}
-              value={type.name ? type.name : ''}
-            >
-              {capitalizeFirstLetter(type.name)}
+          types.map((t) => (
+            <SelectItem data-testid="select-item" key={t.url} value={t.name}>
+              {capitalizeFirstLetter(t.name)}
             </SelectItem>
           ))}
       </SelectContent>

@@ -17,6 +17,7 @@ export const Navbar = () => {
               height={250}
               src="/assets/images/pokedesk-logo.png"
               alt="Pokedesk logo"
+              priority
             />
           </Link>
         </div>

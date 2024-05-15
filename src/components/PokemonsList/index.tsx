@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { getPokemons } from '@/actions/getPokemons';
 import {
   useIntersectionObserver,
   useIsomorphicLayoutEffect,
@@ -9,56 +8,44 @@ import {
 
 import type { Pokemon, Types } from '@/types/Pokemon';
 import { useSearchParams } from 'next/navigation';
-import { delay } from '@/utils/helpers';
+import { delay, pokemonsNameStartsWithQuery } from '@/utils/helpers';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { GridLoader } from 'react-spinners';
 import PokemonCard from '../PokemonCard';
-import { DEBOUNCE_TIME } from '@/utils/constants';
 
 const PokemonsList = ({
-  initialPokemons,
+  pokemons,
+  page,
+  handlePage,
 }: {
-  initialPokemons: Pokemon[] | undefined | null;
+  pokemons: Pokemon[] | undefined | null;
+  page: number;
+  handlePage: (page: number) => void;
 }) => {
-  const [pokemons, setPokemons] = useState(initialPokemons);
-  const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const { isIntersecting, ref } = useIntersectionObserver({
     threshold: 0.5,
   });
   const searchParams = useSearchParams();
   const search = searchParams.get('search') || '';
-  const type = searchParams.get('type') || '';
+  const type = searchParams.get('type') || 'all';
 
-  const loadMorePokemons = async () => {
+  const loadNextPage = async () => {
     setLoading(true);
-    await delay(DEBOUNCE_TIME);
+    await delay(1000);
     const nextPage = page + 1;
-    const newPokemons = await getPokemons({
-      query: {
-        search,
-      },
-      page: nextPage,
-    });
-    setPage(nextPage);
-    setPokemons((prev) => {
-      if (!prev) return newPokemons;
-      const uniquePokemons = newPokemons!.filter(
-        (pokemon: Pokemon) => !prev.some((p) => p.name === pokemon.name),
-      );
-      return [...prev, ...uniquePokemons];
-    });
+    handlePage(nextPage);
     setLoading(false);
   };
 
   useIsomorphicLayoutEffect(() => {
     if (isIntersecting) {
-      loadMorePokemons();
+      loadNextPage();
     }
   }, [isIntersecting]);
 
   const pokemonsFilteredByType =
-    type !== ''
+    type !== 'all'
       ? pokemons?.filter((pokemon) =>
           pokemon.types.some(
             (t: Types) =>
@@ -67,32 +54,42 @@ const PokemonsList = ({
         )
       : pokemons;
 
+  const filteredPokemonBySearch = pokemonsFilteredByType!.filter(
+    (pokemon: { name: string }) =>
+      pokemonsNameStartsWithQuery(pokemon.name, search!.toLowerCase()),
+  );
+
   return (
     <>
-      <pre className="fixed top-36 z-10 text-xs">
-        count: {pokemonsFilteredByType?.length || 0}
-      </pre>
-      {pokemonsFilteredByType?.length ? (
+      {filteredPokemonBySearch?.length ? (
         <ul
           data-testid="pokemons-list"
           className="container flex w-full flex-wrap items-center justify-center gap-2"
         >
-          {pokemonsFilteredByType?.map((pokemon: Pokemon) => (
+          {filteredPokemonBySearch?.map((pokemon: Pokemon) => (
             <li data-testid="card" key={pokemon.name}>
               <PokemonCard pokemon={pokemon} />
             </li>
           ))}
         </ul>
       ) : (
-        <div className="flex h-96 items-center justify-center">
-          <h1 className="text-2xl font-bold text-primary">No Pokemon found!</h1>
+        // <div className="flex h-96 items-center justify-center">
+        //   <h1 className="text-2xl font-bold text-primary">No Pokemon found!</h1>
+        // </div>
+        <div className="flex items-center justify-center">
+          <GridLoader
+            color="#0185d0"
+            loading
+            aria-label="Loading Spinner"
+            data-testid="loader"
+          />
         </div>
       )}
 
-      {pokemonsFilteredByType && pokemonsFilteredByType.length >= 24 && (
+      {filteredPokemonBySearch && filteredPokemonBySearch.length >= 24 && (
         <div
           data-testid="loader"
-          className="flex items-center justify-center p-8"
+          className="flex items-center justify-center pt-8"
           ref={ref}
         >
           <GridLoader

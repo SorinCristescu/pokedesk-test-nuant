@@ -1,8 +1,6 @@
-'use server';
-
 import { PokemonClient } from 'pokenode-ts';
 
-export async function getTypes() {
+export async function fetchTypes() {
   const api = new PokemonClient();
   const data = await api
     .listTypes()
